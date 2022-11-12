@@ -21,7 +21,7 @@ impl Bitcoin for BitcoinService {
 
         let reply = BtcPaymentResponse {
             successful: true,
-            message: format!("Sent {}BTC to {}.", req.amount, req.to_addr).into(),
+            message: format!("Sent {}BTC to {}.", req.amount, req.to_addr),
         };
         Ok(Response::new(reply))
     }
