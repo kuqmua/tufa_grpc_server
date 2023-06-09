@@ -10,4 +10,5 @@ tonic = "0.7"
 
 [build-dependencies]
 tonic-build = "0.7"
+check_specific_dependency_version_usage = {path = "../proc_macros/check_specific_dependency_version_usage"}
 compile_time_git_info = {path = "../proc_macros/compile_time_git_info"}
