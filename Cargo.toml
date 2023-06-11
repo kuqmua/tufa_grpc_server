@@ -5,10 +5,9 @@ version = "0.1.0"
 
 [dependencies]
 prost = {version = "=0.10"}
-tokio = {version = "1.0", features = ["macros", "rt-multi-thread"]}
+tokio = {version = "=1.19.2", features = ["macros", "rt-multi-thread"]}
 tonic = {version = "=0.7"}
 
 [build-dependencies]
 tonic-build = {version = "=0.7"}
-check_specific_dependency_version_usage = {path = "../proc_macros/check_specific_dependency_version_usage"}
 compile_time_git_info = {path = "../proc_macros/compile_time_git_info"}
