@@ -6,11 +6,6 @@
 )]
 #![allow(clippy::too_many_arguments)]
 
-use tonic::{transport::Server, Request, Response, Status};
-
-use payments::bitcoin_server::{Bitcoin, BitcoinServer};
-use payments::{BtcPaymentRequest, BtcPaymentResponse};
-
 pub mod payments {
     tonic::include_proto!("payments");
 }
@@ -18,20 +13,20 @@ pub mod payments {
 pub struct BitcoinService {}
 
 #[tonic::async_trait]
-impl Bitcoin for BitcoinService {
+impl payments::bitcoin_server::Bitcoin for BitcoinService {
     async fn send_payment(
         &self,
-        request: Request<BtcPaymentRequest>,
-    ) -> Result<Response<BtcPaymentResponse>, Status> {
+        request: tonic::Request<payments::BtcPaymentRequest>,
+    ) -> Result<tonic::Response<payments::BtcPaymentResponse>, tonic::Status> {
         println!("Got a request: {:?}", request);
 
         let req = request.into_inner();
 
-        let reply = BtcPaymentResponse {
+        let reply = payments::BtcPaymentResponse {
             successful: true,
             message: format!("Sent {}BTC to {}.", req.amount, req.to_addr),
         };
-        Ok(Response::new(reply))
+        Ok(tonic::Response::new(reply))
     }
 }
 
@@ -39,8 +34,8 @@ impl Bitcoin for BitcoinService {
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr = "[::1]:50051".parse()?;
     let btc_service = BitcoinService::default();
-    Server::builder()
-        .add_service(BitcoinServer::new(btc_service))
+    tonic::transport::Server::builder()
+        .add_service(payments::bitcoin_server::BitcoinServer::new(btc_service))
         .serve(addr)
         .await?;
     Ok(())
