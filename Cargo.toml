@@ -11,3 +11,6 @@ tonic = {version = "=0.7"}
 [build-dependencies]
 tonic-build = {version = "=0.7"}
 compile_time_git_info = {path = "../proc_macros/compile_time_git_info"}
+
+[lints]
+workspace = true
